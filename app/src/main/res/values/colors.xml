@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--
+      HiCardi design tokens — calm / editorial / bright
+      bg: warm white, surface: white, border: neutral hairline
+      accent: deep blue 단일 사용
+    -->
+    <color name="bg_primary">#FAFAF8</color>
+    <color name="bg_surface">#FFFFFF</color>
+    <color name="bg_surface_alt">#FFFFFF</color>
+    <color name="bg_stat">#FFFFFF</color>
+    <color name="bg_alert">#FDF3F2</color>
+    <color name="bottom_nav_bar">#FFFFFF</color>
+
+    <color name="text_primary">#111111</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_tertiary">#999999</color>
+    <color name="text_accent">#1A56DB</color>
+    <color name="text_success">#067647</color>
+    <color name="text_warning">#B54708</color>
+    <color name="text_error">#C4320A</color>
+    <color name="text_bottom_nav_active">#111111</color>
+    <color name="text_bottom_nav_inactive">#999999</color>
+
+    <color name="tab_selected">#111111</color>
+    <color name="tab_unselected">#999999</color>
+    <color name="tab_indicator">#111111</color>
+
+    <color name="color_primary">#1A56DB</color>
+    <color name="color_on_primary">#FFFFFF</color>
+    <color name="color_surface">#FFFFFF</color>
+    <color name="color_on_surface">#111111</color>
+    <color name="color_background">#FAFAF8</color>
+
+    <color name="border_primary">#E7E7E7</color>
+    <color name="border_secondary">#E7E7E7</color>
+    <color name="btn_blue">#1A56DB</color>
+    <color name="btn_blue_pressed">#1747B8</color>
+    <color name="btn_blue_disabled">#C7D3F2</color>
+
+    <color name="fab_upload">#111111</color>
+
+    <color name="panel_settings_bg">#FFFFFF</color>
+
+    <!-- ECG plot — 지면과 어울리는 웜 그레이 그리드 -->
+    <color name="ecg_bg">#FFFFFF</color>
+    <color name="ecg_grid_minor">#F1F0EC</color>
+    <color name="ecg_grid">#E4E3DF</color>
+    <color name="ecg_axis">#B9B7B1</color>
+    <color name="ecg_waveform">#111111</color>
+    <color name="ecg_placeholder">#C4C2BC</color>
+    <color name="ecg_bpm">#C4320A</color>
+
+    <color name="ecg_p">#1A56DB</color>
+    <color name="ecg_q">#B54708</color>
+    <color name="ecg_r">#C4320A</color>
+    <color name="ecg_s">#B54708</color>
+    <color name="ecg_t">#067647</color>
+
+    <color name="cls_normal">#067647</color>
+    <color name="cls_sinus_tachy">#B54708</color>
+    <color name="cls_apc">#1A56DB</color>
+    <color name="cls_af_afl">#6941C6</color>
+    <color name="cls_bradycardia">#0E7090</color>
+    <color name="cls_vpc">#C4320A</color>
+    <color name="cls_trigeminy">#C11574</color>
+
+    <color name="status_ok">#067647</color>
+    <color name="status_warn">#B54708</color>
+
+    <color name="strip_s">#FBEAE6</color>
+    <color name="strip_v">#E4F3E9</color>
+    <color name="strip_f">#E8EEFB</color>
+</resources>

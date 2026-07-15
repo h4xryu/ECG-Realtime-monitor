@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/pad_screen"
+        android:paddingTop="28dp"
+        android:paddingEnd="@dimen/pad_screen"
+        android:paddingBottom="@dimen/pad_screen">
+
+        <TextView
+            style="@style/HiCardiTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/personalization_headline" />
+
+        <TextView
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/personalization_lede" />
+
+        <!-- 절차 — 번호 매긴 타이포그래피 리스트 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/HiCardiOverline"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="01"
+                    android:textColor="@color/text_accent" />
+
+                <TextView
+                    style="@style/HiCardiBody"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/personalization_step1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="@color/border_primary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/HiCardiOverline"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="02"
+                    android:textColor="@color/text_accent" />
+
+                <TextView
+                    style="@style/HiCardiBody"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/personalization_step2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="@color/border_primary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/HiCardiOverline"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="03"
+                    android:textColor="@color/text_accent" />
+
+                <TextView
+                    style="@style/HiCardiBody"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/personalization_step3" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 현재 상태 -->
+        <TextView
+            style="@style/HiCardiOverline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/personalization_status_label" />
+
+        <TextView
+            android:id="@+id/cpcAccuracyText"
+            style="@style/HiCardiSectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/personalization_accuracy_placeholder" />
+
+        <TextView
+            android:id="@+id/cpcStatusText"
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/cpc_idle" />
+
+        <TextView
+            style="@style/HiCardiOverline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/personalization_history_label" />
+
+        <TextView
+            android:id="@+id/cpcHistoryEmpty"
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/personalization_history_empty"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cpcHistoryList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/startCpcButton"
+            style="@style/HiCardiButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="32dp"
+            android:text="@string/start_cpc_calibration" />
+
+    </LinearLayout>
+</ScrollView>

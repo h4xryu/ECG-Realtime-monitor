@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 녹화 중지 후 저장/내보내기 옵션: 신호(ADC/mV) + 파일 형식(mat/npz) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_surface"
+    android:orientation="vertical"
+    android:padding="@dimen/pad_screen">
+
+    <TextView
+        android:id="@+id/saveSummaryText"
+        style="@style/HiCardiCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0:00 · 0 샘플" />
+
+    <TextView
+        style="@style/HiCardiOverline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recording_signal_label" />
+
+    <CheckBox
+        android:id="@+id/exportAdcCheck"
+        style="@style/HiCardiBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:checked="true"
+        android:text="@string/recording_signal_adc" />
+
+    <CheckBox
+        android:id="@+id/exportMvCheck"
+        style="@style/HiCardiBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/recording_signal_mv" />
+
+    <TextView
+        style="@style/HiCardiOverline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recording_format_label" />
+
+    <RadioGroup
+        android:id="@+id/exportFormatGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/exportFormatMat"
+            style="@style/HiCardiBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/recording_format_mat" />
+
+        <RadioButton
+            android:id="@+id/exportFormatNpz"
+            style="@style/HiCardiBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recording_format_npz" />
+    </RadioGroup>
+
+</LinearLayout>

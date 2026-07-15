@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detailRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/pad_screen">
+
+        <com.example.hicardimonitor.StripRecordView
+            android:id="@+id/detailStripView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- strip 탭 안내 — 최소 단어 -->
+        <TextView
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/strip_tap_hint"
+            android:textColor="@color/text_tertiary" />
+
+        <!-- 개인화 전용 섹션 (isPersonalization 일 때만 표시) -->
+        <LinearLayout
+            android:id="@+id/personalizationSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/HiCardiOverline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_section"
+                android:text="@string/personalization_metrics_label" />
+
+            <com.example.hicardimonitor.ui.widget.PersonalizationMetricsView
+                android:id="@+id/metricsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                style="@style/HiCardiOverline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_section"
+                android:text="@string/personalization_embedding_label" />
+
+            <com.example.hicardimonitor.ui.widget.EmbeddingView
+                android:id="@+id/embeddingView"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false"
+                android:gravity="end">
+
+                <Button
+                    android:id="@+id/embeddingCamButton"
+                    style="@style/HiCardiButtonGhost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minWidth="88dp"
+                    android:text="@string/cam_show" />
+            </LinearLayout>
+
+            <com.example.hicardimonitor.ui.widget.SaliencyWaveView
+                android:id="@+id/embeddingWave"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/detailDiagnosisText"
+            style="@style/HiCardiBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_item" />
+
+        <Button
+            android:id="@+id/saveMatButton"
+            style="@style/HiCardiButtonGhost"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_section"
+            android:text="@string/save_mat" />
+
+        <Button
+            android:id="@+id/shareMatButton"
+            style="@style/HiCardiButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_item"
+            android:text="@string/share_mat" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 페이지 대제목 -->
+    <style name="HiCardiTitle">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <!-- 작은 라벨 (섹션 위 오버라인) -->
+    <style name="HiCardiOverline">
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">@dimen/text_overline</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="HiCardiStatus">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+
+    <style name="HiCardiSectionTitle">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_section</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="HiCardiBody">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+
+    <style name="HiCardiCaption">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
+    <style name="HiCardiMetric">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_metric</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- 큰 수치 (체온·카운트다운) — 장식 대신 타이포그래피 -->
+    <style name="HiCardiDisplay">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_display</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="HiCardiTempValue">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">44sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="HiCardiBpmOverlay">
+        <item name="android:textColor">@color/ecg_bpm</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="HiCardiPanelText" parent="HiCardiBody">
+        <item name="android:background">@drawable/panel_flat</item>
+        <item name="android:padding">@dimen/pad_panel</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+
+    <style name="HiCardiEdit">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:background">@drawable/edit_field</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="HiCardiCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="buttonTint">@color/text_accent</item>
+    </style>
+
+    <style name="HiCardiButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_blue</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">@dimen/btn_height</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <!-- 보조 버튼: 흰 배경 + 헤어라인 -->
+    <style name="HiCardiButtonGhost" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_ghost</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">@dimen/btn_height</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <style name="HiCardiBottomNav">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="HiCardiBottomNav.Active">
+        <item name="android:textColor">@color/text_bottom_nav_active</item>
+    </style>
+
+    <style name="HiCardiBottomNav.Inactive">
+        <item name="android:textColor">@color/text_bottom_nav_inactive</item>
+    </style>
+
+    <style name="HiCardiPanel">
+        <item name="android:background">@drawable/panel_settings</item>
+        <item name="android:padding">@dimen/pad_panel</item>
+    </style>
+
+    <style name="HiCardiTabText" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>

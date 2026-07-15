@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:orientation="vertical">
+
+    <!-- 상단: 닫기만. 타이틀은 본문 타이포그래피로 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp">
+
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/close"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="@color/text_secondary" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/pad_screen"
+        android:paddingEnd="@dimen/pad_screen">
+
+        <TextView
+            android:id="@+id/measureModeLabel"
+            style="@style/HiCardiOverline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ecg_measurement_title" />
+
+        <!-- 남은 시간: 장식 없는 대형 라이트 숫자 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/measureCountText"
+                style="@style/HiCardiDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30" />
+
+            <TextView
+                android:id="@+id/measureCountCaption"
+                style="@style/HiCardiCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/seconds_remaining" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/measureBpmText"
+                style="@style/HiCardiBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="-- BPM"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <!-- 1초 = 눈금 하나. 잉크로 채워지는 룰러 -->
+        <com.example.hicardimonitor.ui.widget.TickTimelineView
+            android:id="@+id/measureTimeline"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/measureStatusHint"
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/measuring_hint" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/border_primary" />
+
+    <!-- 남은 공간을 채우되(weight=1) 그래프 자체는 고정 높이로 축소해 세로 중앙 배치. 실시간 갱신은 유지 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.hicardimonitor.EcgPlotView
+            android:id="@+id/measureEcgView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/pad_screen"
+            android:layout_marginEnd="@dimen/pad_screen" />
+    </FrameLayout>
+
+    <!-- 레코딩 모드 전용: 녹화 중지 (CPC 는 자동 종료라 숨김) -->
+    <LinearLayout
+        android:id="@+id/stopRecordBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_nav"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/pad_screen"
+        android:paddingTop="13dp"
+        android:paddingEnd="@dimen/pad_screen"
+        android:paddingBottom="12dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/stopRecordButton"
+            style="@style/HiCardiButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:text="@string/stop_recording" />
+    </LinearLayout>
+
+</LinearLayout>

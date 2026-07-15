@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_nav_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_nav"
+    android:orientation="horizontal"
+    android:paddingTop="1dp">
+
+    <TextView
+        android:id="@+id/nav_home"
+        style="@style/HiCardiBottomNav.Inactive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nav_home" />
+
+    <TextView
+        android:id="@+id/nav_sensor"
+        style="@style/HiCardiBottomNav.Inactive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nav_sensor" />
+
+    <TextView
+        android:id="@+id/nav_settings"
+        style="@style/HiCardiBottomNav.Inactive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nav_settings" />
+
+</LinearLayout>

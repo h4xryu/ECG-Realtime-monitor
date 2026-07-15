@@ -1,0 +1,124 @@
+{
+  "mitdb": "D:\\workspace\\Classification_workflow\\mit-bih-arrhythmia-database-1.0.0",
+  "records": [
+    "100",
+    "103",
+    "200"
+  ],
+  "n_beats": 450,
+  "label_dist_4": {
+    "N": 395,
+    "S": 1,
+    "V": 54
+  },
+  "variants": {
+    "baseline": {
+      "variant": "baseline",
+      "acc5": 0.9422222222222222,
+      "acc4": 0.9422222222222222,
+      "per_class4": {
+        "N": {
+          "support": 395,
+          "recall": 0.9645569620253165,
+          "correct": 381
+        },
+        "S": {
+          "support": 1,
+          "recall": 1.0,
+          "correct": 1
+        },
+        "V": {
+          "support": 54,
+          "recall": 0.7777777777777778,
+          "correct": 42
+        }
+      },
+      "confusion4": {
+        "N": {
+          "N": 381,
+          "S": 9,
+          "V": 5
+        },
+        "S": {
+          "S": 1
+        },
+        "V": {
+          "V": 42,
+          "N": 11,
+          "S": 1
+        },
+        "F": {}
+      }
+    },
+    "dw_only": {
+      "variant": "dw_only",
+      "conv_mse": 0.7418799996376038,
+      "acc5": 0.8777777777777778,
+      "acc4": 0.8777777777777778,
+      "per_class4": {
+        "N": {
+          "support": 395,
+          "recall": 1.0,
+          "correct": 395
+        },
+        "S": {
+          "support": 1,
+          "recall": 0.0,
+          "correct": 0
+        },
+        "V": {
+          "support": 54,
+          "recall": 0.0,
+          "correct": 0
+        }
+      },
+      "confusion4": {
+        "N": {
+          "N": 395
+        },
+        "S": {
+          "N": 1
+        },
+        "V": {
+          "N": 54
+        },
+        "F": {}
+      }
+    },
+    "dsconv": {
+      "variant": "dsconv",
+      "conv_mse": 0.6595414280891418,
+      "acc5": 0.8777777777777778,
+      "acc4": 0.8777777777777778,
+      "per_class4": {
+        "N": {
+          "support": 395,
+          "recall": 1.0,
+          "correct": 395
+        },
+        "S": {
+          "support": 1,
+          "recall": 0.0,
+          "correct": 0
+        },
+        "V": {
+          "support": 54,
+          "recall": 0.0,
+          "correct": 0
+        }
+      },
+      "confusion4": {
+        "N": {
+          "N": 395
+        },
+        "S": {
+          "N": 1
+        },
+        "V": {
+          "N": 54
+        },
+        "F": {}
+      }
+    }
+  }
+}

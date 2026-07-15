@@ -1,0 +1,33 @@
+# Gradle / build
+.gradle/
+**/build/
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Kotlin
+.kotlin/
+
+# IDE
+*.iml
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetDropdown.xml
+.idea/deploymentTargetSelector.xml
+
+# Local config / secrets (machine-specific, do NOT commit)
+local.properties
+/local.properties
+*.keystore
+*.jks
+keystore.properties
+google-services.json
+
+# OS
+.DS_Store
+Thumbs.db

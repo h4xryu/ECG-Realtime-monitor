@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_title">22sp</dimen>
+    <dimen name="text_section">15sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_caption">13sp</dimen>
+    <dimen name="text_metric">20sp</dimen>
+    <dimen name="text_button">14sp</dimen>
+    <dimen name="text_log">12sp</dimen>
+    <dimen name="text_overline">12sp</dimen>
+    <dimen name="text_display">56sp</dimen>
+
+    <dimen name="pad_screen">20dp</dimen>
+    <dimen name="pad_panel">16dp</dimen>
+    <dimen name="gap_section">24dp</dimen>
+    <dimen name="gap_item">10dp</dimen>
+    <dimen name="input_height">40dp</dimen>
+    <dimen name="input_width_short">52dp</dimen>
+    <dimen name="btn_height">48dp</dimen>
+    <dimen name="metric_box_height">60dp</dimen>
+    <dimen name="realtime_plot_height">220dp</dimen>
+    <dimen name="strip_viewport_min">280dp</dimen>
+</resources>
