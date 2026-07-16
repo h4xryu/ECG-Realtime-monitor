@@ -28,4 +28,6 @@ data class GraphSettings(
   var mmPerMv: Float = 20f,
   /** 가로 속도 (mm/s) — 임상 표준 25 또는 50. */
   var mmPerSec: Float = 25f,
+  /** 표시 전용 스무딩(EcgDisplaySmoother) 적용 — 공식앱 수준 매끈한 파형. R-peak·기록·모델 무관. */
+  var smoothDisplay: Boolean = true,
 )

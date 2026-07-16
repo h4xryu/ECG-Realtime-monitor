@@ -109,14 +109,16 @@ class ArrhythmiaInferenceEngine(
    * 대신 BPM rule 로 판정해 [ArrhythmiaResult.bradycardia] 로 별도 전달한다.
    */
   private fun postProcess(res: ArrhythmiaResult): ArrhythmiaResult {
-    // 모델 로짓에서 서맥([BRADY_LOGIT_INDEX])을 드롭 → CLASS_NAMES 순서의 5-vector.
     val raw = res.probabilities
-    val probs = FloatArray(ArrhythmiaConfig.NUM_CLASSES)
-    var j = 0
-    for (i in raw.indices) {
-      if (i == ArrhythmiaConfig.BRADY_LOGIT_INDEX) continue
-      if (j >= probs.size) break
-      probs[j++] = raw[i]
+    // version2 모델은 5-logit [Normal,Sinus_Tachy,APC,AF_AFL,VPC](서맥 없음) → 1:1 매핑.
+    // 구형 6-logit(서맥 index 4 포함)이면 그 로짓만 드롭해 VPC(=raw[5])를 살린다.
+    // (기존 버그: 6-로짓 가정으로 5-로짓 모델의 index 4=VPC 를 서맥인 줄 알고 드롭 → VPC 항상 0.)
+    val probs = if (raw.size >= 6) {
+      FloatArray(ArrhythmiaConfig.NUM_CLASSES) { i ->
+        raw[if (i < ArrhythmiaConfig.BRADY_LOGIT_INDEX) i else i + 1]
+      }
+    } else {
+      FloatArray(ArrhythmiaConfig.NUM_CLASSES) { i -> raw.getOrElse(i) { 0f } }
     }
 
     val prev = smoothed

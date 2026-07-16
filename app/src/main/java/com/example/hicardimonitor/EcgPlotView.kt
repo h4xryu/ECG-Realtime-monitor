@@ -31,6 +31,8 @@ class EcgPlotView @JvmOverloads constructor(
 
   var sweepEnabled: Boolean = true
 
+  private val displaySmoother = EcgDisplaySmoother(ModelConfig.FS_HZ)
+
   private var sweepBuffer = FloatArray(sweepCapacity())
   private var rPeakMarks = BooleanArray(sweepCapacity())
   /** true 면 이 인덱스에서 이전 샘플과 선을 잇지 않는다(패킷 유실 경계). */
@@ -146,8 +148,9 @@ class EcgPlotView @JvmOverloads constructor(
     if (!sweepEnabled) return
     val size = sweepBuffer.size
     val startIdx = writeIdx
+    val smooth = settings.smoothDisplay
     for (i in samples.indices) {
-      sweepBuffer[writeIdx] = samples[i]
+      sweepBuffer[writeIdx] = if (smooth) displaySmoother.process(samples[i]) else samples[i]
       rPeakMarks[writeIdx] = false
       breakMarks[writeIdx] = gapBefore && i == 0
       writeIdx++
@@ -175,6 +178,7 @@ class EcgPlotView @JvmOverloads constructor(
     breakMarks.fill(false)
     autoYMin = Float.NaN
     autoYMax = Float.NaN
+    displaySmoother.reset()
     invalidate()
   }
 

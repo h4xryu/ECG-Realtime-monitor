@@ -9,8 +9,9 @@ package com.example.hicardimonitor
  *   clinical_feats: float32 [1, 32]     ClinicalFeatures.compute
  *   logits       : float32 [1, 6] → sigmoid → 멀티라벨 (threshold 0.5)
  *
- * 모델은 6 로짓(서맥 포함)을 내지만 앱은 서맥 로짓([BRADY_LOGIT_INDEX])을 폐기하고
- * 5클래스(CLASS_NAMES)만 표시한다. 서맥은 BPM rule 로 별도 판정(ArrhythmiaResult.bradycardia).
+ * version2(0716) 모델은 **5 로짓** [Normal,Sinus_Tachy,APC,AF_AFL,VPC](서맥 없음)을 낸다.
+ * 앱은 로짓 수를 런타임 감지: 6-로짓(구형, 서맥 포함)이면 [BRADY_LOGIT_INDEX]를 드롭,
+ * 5-로짓(version2)이면 1:1 매핑(postProcess). 서맥은 항상 BPM rule 로 별도 판정.
  *
  * ADC 스케일: HiCardi 센서 offset = 16384(0x4000)이며 BleSampleBatch.rawCounts 는 이미
  * (adc - 16384) offset counts 이므로 모델 mV = rawCounts / ADC_SCALE_MV.

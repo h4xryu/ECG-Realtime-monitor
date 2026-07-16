@@ -40,8 +40,8 @@ object ModelConfig {
   /** Sweep 실시간 플롯 기본 창 (초) */
   const val SWEEP_WINDOW_SEC = 2f
 
-  /** Sweep 이전 주기와의 시각적 갭 (초) */
-  const val SWEEP_GAP_SEC = 0.05f
+  /** Sweep 이전 주기와의 시각적 갭 — 지우개 바(erase bar). 공식앱처럼 큰 격자 ~1.5칸(0.3s @25mm/s). */
+  const val SWEEP_GAP_SEC = 0.3f
 
   /** .mat dECG ADC 기준점 */
   const val ADC_ZERO = 8192

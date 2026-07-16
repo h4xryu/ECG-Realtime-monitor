@@ -221,6 +221,9 @@ class HiCardiCoordinator(private val activity: AppCompatActivity) {
       modelRunner.load()
       cpcRunner.load()
       arrhythmiaRunner.load()
+      // 재시작 후 patient_vec 이 null 이면 저장된 최신 개인화 기록에서 복원.
+      // (없으면 6-class 모델이 zero patient_vec 로 붕괴 → AF 오탐. #personalization)
+      restorePatientEmbeddingIfNeeded()
     }
   }
 
@@ -344,6 +347,31 @@ class HiCardiCoordinator(private val activity: AppCompatActivity) {
   /** 저장된 개인화 신호를 다시 인코딩 (기록 상세에서 임베딩·품질·CAM 재계산용). */
   fun encodeSignal(signal: FloatArray): PatientEncoding? =
     if (cpcRunner.isLoaded) cpcRunner.encodePatient(signal) else null
+
+  /**
+   * 저장된 개인화 기록을 CPC 인코딩해 patient_vec 으로 적용.
+   * background(bleExecutor/inferenceExecutor)에서 호출할 것 — 디스크 로드 + 무거운 인코딩.
+   * @return 성공 여부.
+   */
+  fun applyPersonalizationFromRecord(recordId: String): Boolean {
+    if (!cpcRunner.isLoaded) return false
+    val record = recordRepo.load(recordId) ?: return false
+    val signal = record.mergedRawAdc()
+    if (signal.size < ModelConfig.CPC_WINDOW_SIZE) return false
+    val encoding = cpcRunner.encodePatient(signal) ?: return false
+    patientEmbedding = encoding.pooled
+    personalizationQuality = PersonalizationQuality.from(encoding)
+    lastPersonalizationRecordId = recordId
+    mainHandler.post { log("개인화 복원: 기록 $recordId → patient_vec ${encoding.pooled.size}D") }
+    return true
+  }
+
+  /** 앱 시작 시 patient_vec 이 비어 있으면 최신 개인화 기록에서 복원(라이브 캘리브 불필요). */
+  private fun restorePatientEmbeddingIfNeeded() {
+    if (patientEmbedding?.size == ModelConfig.PATIENT_EMBEDDING_DIM) return
+    val latest = recordRepo.listRecords().firstOrNull { it.isPersonalization } ?: return
+    applyPersonalizationFromRecord(latest.id)
+  }
 
   fun saveContinuousRecord(): DiagnosisRecord? {
     if (continuousFiltered.isEmpty()) return null
