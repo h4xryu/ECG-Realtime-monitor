@@ -35,12 +35,28 @@ object RecordMatActions {
     )
   }
 
-  fun createSaveIntent(fileName: String): Intent =
+  fun createSaveIntent(fileName: String, mime: String = "application/octet-stream"): Intent =
     Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
       addCategory(Intent.CATEGORY_OPENABLE)
-      type = "application/octet-stream"
+      type = mime
       putExtra(Intent.EXTRA_TITLE, fileName)
     }
+
+  /** 임의 파일을 FileProvider 로 공유(ACTION_SEND). PDF strip-view 등. */
+  fun shareFile(activity: Activity, file: File, displayName: String, mime: String) {
+    val uri = matUri(activity, file)
+    val intent = Intent(Intent.ACTION_SEND).apply {
+      type = mime
+      putExtra(Intent.EXTRA_STREAM, uri)
+      putExtra(Intent.EXTRA_SUBJECT, displayName)
+      putExtra(Intent.EXTRA_TITLE, displayName)
+      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+      clipData = ClipData.newUri(activity.contentResolver, displayName, uri)
+    }
+    activity.startActivity(
+      Intent.createChooser(intent, activity.getString(R.string.share_chooser_title)),
+    )
+  }
 
   fun writeToUri(context: Context, uri: Uri, file: File) {
     context.contentResolver.openOutputStream(uri)?.use { out ->

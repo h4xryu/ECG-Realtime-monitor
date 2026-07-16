@@ -66,6 +66,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/recording_format_npz" />
+
+        <RadioButton
+            android:id="@+id/exportFormatPdf"
+            style="@style/HiCardiBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recording_format_pdf" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/exportPdfHint"
+        style="@style/HiCardiCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/recording_format_pdf_hint"
+        android:textColor="@color/text_tertiary"
+        android:visibility="gone" />
 
 </LinearLayout>

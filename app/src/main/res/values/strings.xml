@@ -79,6 +79,9 @@
     <string name="recording_format_label">파일 형식</string>
     <string name="recording_format_mat">MATLAB (.mat, v5)</string>
     <string name="recording_format_npz">NumPy (.npz)</string>
+    <string name="recording_format_pdf">PDF (스트립 뷰 리포트)</string>
+    <string name="recording_format_pdf_hint">25mm/s · 10mm/mV 방안지 파형 + 요약. 신호 옵션은 무시됩니다.</string>
+    <string name="share_pdf">스트립 PDF 공유</string>
     <string name="recording_export">내보내기</string>
     <string name="recording_save_only">저장만</string>
     <string name="recording_delete">삭제</string>

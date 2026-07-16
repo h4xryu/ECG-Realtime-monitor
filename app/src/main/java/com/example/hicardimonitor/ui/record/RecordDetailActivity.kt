@@ -16,6 +16,7 @@ import com.example.hicardimonitor.StripRecordBuffer
 import com.example.hicardimonitor.StripRecordView
 import com.example.hicardimonitor.data.DiagnosisRecord
 import com.example.hicardimonitor.data.RecordMatActions
+import com.example.hicardimonitor.data.RecordingPdfExporter
 import com.example.hicardimonitor.data.RecordRepository
 import com.example.hicardimonitor.session.PersonalizationQuality
 import com.example.hicardimonitor.ui.MainActivity
@@ -93,6 +94,7 @@ class RecordDetailActivity : AppCompatActivity() {
 
     findViewById<Button>(R.id.saveMatButton).setOnClickListener { exportAndSaveMat() }
     findViewById<Button>(R.id.shareMatButton).setOnClickListener { exportAndShareMat() }
+    findViewById<Button>(R.id.sharePdfButton).setOnClickListener { exportAndSharePdf() }
 
     if (record.isPersonalization) setupPersonalization()
   }
@@ -244,6 +246,29 @@ class RecordDetailActivity : AppCompatActivity() {
       RecordMatActions.shareMat(this, matFile, RecordMatActions.displayFileName(record))
     } catch (e: Exception) {
       Toast.makeText(this, "export 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+    }
+  }
+
+  /** 임상 strip-view PDF 생성(백그라운드) 후 공유. */
+  private fun exportAndSharePdf() {
+    Toast.makeText(this, R.string.recording_exporting, Toast.LENGTH_SHORT).show()
+    bg.execute {
+      val name = RecordingPdfExporter.fileNameFor(record)
+      val out = File(cacheDir, name)
+      val err = try {
+        RecordingPdfExporter.export(record, out)
+        null
+      } catch (e: Exception) {
+        out.delete(); e.message ?: "unknown"
+      }
+      runOnUiThread {
+        if (isFinishing || isDestroyed) return@runOnUiThread
+        if (err != null) {
+          Toast.makeText(this, "PDF 생성 실패: $err", Toast.LENGTH_LONG).show()
+        } else {
+          RecordMatActions.shareFile(this, out, name, "application/pdf")
+        }
+      }
     }
   }
 

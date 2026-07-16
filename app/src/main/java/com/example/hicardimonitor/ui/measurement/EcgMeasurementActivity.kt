@@ -20,6 +20,7 @@ import com.example.hicardimonitor.R
 import com.example.hicardimonitor.data.DiagnosisRecord
 import com.example.hicardimonitor.data.RecordMatActions
 import com.example.hicardimonitor.data.RecordingExporter
+import com.example.hicardimonitor.data.RecordingPdfExporter
 import com.example.hicardimonitor.session.CpcCalibrationManager
 import com.example.hicardimonitor.session.RecordingManager
 import com.example.hicardimonitor.ui.MainActivity
@@ -205,10 +206,25 @@ class EcgMeasurementActivity : AppCompatActivity() {
     val adcCheck = view.findViewById<CheckBox>(R.id.exportAdcCheck)
     val mvCheck = view.findViewById<CheckBox>(R.id.exportMvCheck)
     val matRadio = view.findViewById<RadioButton>(R.id.exportFormatMat)
+    val npzRadio = view.findViewById<RadioButton>(R.id.exportFormatNpz)
+    val pdfRadio = view.findViewById<RadioButton>(R.id.exportFormatPdf)
+    val pdfHint = view.findViewById<TextView>(R.id.exportPdfHint)
 
     val durSec = ((record.endedAtMs - record.startedAtMs) / 1000).toInt()
     view.findViewById<TextView>(R.id.saveSummaryText).text =
       "${formatElapsed(durSec)} · ${record.totalSamples()} 샘플 · ${record.fs} Hz"
+
+    // PDF 선택 시 신호(ADC/mV) 옵션은 무시 — 안내 표시 + 체크박스 흐리게.
+    fun syncPdfMode() {
+      val isPdf = pdfRadio.isChecked
+      pdfHint.visibility = if (isPdf) View.VISIBLE else View.GONE
+      adcCheck.isEnabled = !isPdf
+      mvCheck.isEnabled = !isPdf
+    }
+    val radioListener = android.widget.CompoundButton.OnCheckedChangeListener { _, _ -> syncPdfMode() }
+    matRadio.setOnCheckedChangeListener(radioListener)
+    npzRadio.setOnCheckedChangeListener(radioListener)
+    pdfRadio.setOnCheckedChangeListener(radioListener)
 
     val dialog = AlertDialog.Builder(this)
       .setTitle(R.string.recording_save_title)
@@ -221,6 +237,11 @@ class EcgMeasurementActivity : AppCompatActivity() {
     dialog.show()
 
     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+      if (pdfRadio.isChecked) {
+        dialog.dismiss()
+        saveAndExportPdf(record)
+        return@setOnClickListener
+      }
       if (!adcCheck.isChecked && !mvCheck.isChecked) {
         Toast.makeText(this, R.string.recording_need_signal, Toast.LENGTH_SHORT).show()
         return@setOnClickListener
@@ -232,6 +253,35 @@ class EcgMeasurementActivity : AppCompatActivity() {
       )
       dialog.dismiss()
       saveAndExport(record, options)
+    }
+  }
+
+  private fun saveAndExportPdf(record: DiagnosisRecord) {
+    Toast.makeText(this, R.string.recording_exporting, Toast.LENGTH_SHORT).show()
+    val fileName = RecordingPdfExporter.fileNameFor(record)
+    bg.execute {
+      coordinator.saveRecording(record)
+      val staged = File(cacheDir, fileName)
+      val error = try {
+        RecordingPdfExporter.export(record, staged)
+        null
+      } catch (e: Exception) {
+        staged.delete()
+        e.message ?: "unknown"
+      }
+      runOnUiThread {
+        if (isFinishing || isDestroyed) {
+          staged.delete()
+          return@runOnUiThread
+        }
+        if (error != null) {
+          Toast.makeText(this, "PDF 생성 실패: $error", Toast.LENGTH_LONG).show()
+          finish()
+          return@runOnUiThread
+        }
+        pendingExportFile = staged
+        exportLauncher.launch(RecordMatActions.createSaveIntent(fileName, "application/pdf"))
+      }
     }
   }
 

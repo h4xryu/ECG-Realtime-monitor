@@ -99,6 +99,14 @@
             android:text="@string/save_mat" />
 
         <Button
+            android:id="@+id/sharePdfButton"
+            style="@style/HiCardiButtonGhost"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_item"
+            android:text="@string/share_pdf" />
+
+        <Button
             android:id="@+id/shareMatButton"
             style="@style/HiCardiButton"
             android:layout_width="match_parent"
