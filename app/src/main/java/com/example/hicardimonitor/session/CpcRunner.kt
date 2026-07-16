@@ -76,11 +76,14 @@ class CpcRunner(private val context: Context) {
     val win = ModelConfig.CPC_WINDOW_SIZE
     if (signal.size < win) return null
     val hop = ModelConfig.CPC_EMBED_HOP.coerceAtLeast(1)
+    // 학습(patient_encoder_cpc.forward)은 per-window pooled_embedding 을 그대로 mean-pool 한다
+    // — L2 정규화 없음. 앱이 L2(단위벡터)를 걸면 AdaIN 이 OOD patient_vec 을 받아 포화(AF 오탐).
+    // 따라서 raw 임베딩을 그대로 평균해 학습과 동일한 patient_vec 을 만든다.
     val perWindow = ArrayList<FloatArray>()
     var start = 0
     while (start + win <= signal.size) {
       val emb = embedWindow(signal.copyOfRange(start, start + win)) ?: return null
-      perWindow.add(l2normalize(emb))
+      perWindow.add(emb)
       start += hop
     }
     if (perWindow.isEmpty()) return null
@@ -88,7 +91,7 @@ class CpcRunner(private val context: Context) {
     val pooled = FloatArray(dim)
     for (v in perWindow) for (d in 0 until dim) pooled[d] += v[d]
     for (d in 0 until dim) pooled[d] /= perWindow.size
-    return PatientEncoding(l2normalize(pooled), perWindow)
+    return PatientEncoding(pooled, perWindow)
   }
 
   /**
