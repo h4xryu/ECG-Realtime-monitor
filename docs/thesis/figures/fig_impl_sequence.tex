@@ -1,0 +1,37 @@
+% fig_impl_sequence.tex
+% BLE connection and streaming sequence. Time flows downward.
+% Convention: BLE transfers are drawn as blue dashed arrows.
+\providecolor{bleblue}{RGB}{0,112,192}
+\begin{tikzpicture}[>=Stealth, thick, y=8mm, x=1mm,
+  head/.style={draw, thick, align=center, inner sep=1.5mm},
+  ble/.style={->, thick, densely dashed, bleblue},
+  lbl/.style={midway, above, inner sep=1pt},
+  note/.style={anchor=west, align=left}]
+
+  %% ---------------- lifelines ----------------
+  \node[head] (app) at (0,0)  {Smartphone};
+  \node[head] (pat) at (75,0) {Patch};
+  \draw[densely dashed, gray!60] (app.south) -- (0,-8.6);
+  \draw[densely dashed, gray!60] (pat.south) -- (75,-8.6);
+
+  %% ---------------- connection ----------------
+  \draw[ble] (0,-1)   -- node[lbl] {scan (MAC / name)}                (75,-1);
+  \draw[ble] (0,-1.8) -- node[lbl] {GATT connect (LE)}                (75,-1.8);
+  \draw[ble] (0,-2.6) -- node[lbl] {service discovery (NUS)}          (75,-2.6);
+  \draw[ble] (0,-3.4) -- node[lbl] {CCCD write \texttt{0x0001} (2\,B)}(75,-3.4);
+
+  %% ---------------- start commands ----------------
+  \draw[ble] (0,-4.4) -- node[lbl] {\texttt{"START"} (6\,B)}   (75,-4.4);
+  \draw[ble] (0,-5.0) -- node[lbl] {\texttt{"ECG\_ON"} (7\,B)} (75,-5.0);
+  \draw[ble] (0,-5.6) -- node[lbl] {\texttt{0x01} (1\,B)}      (75,-5.6);
+  \draw[decorate, decoration={brace, amplitude=2mm}] (78,-5.7) -- (78,-4.3)
+        node[note, midway, xshift=3mm] {write w/o response,\\80\,ms apart};
+
+  %% ---------------- streaming ----------------
+  \draw[ble] (75,-6.6) -- node[lbl] {notification, 42\,B} (0,-6.6);
+  \draw[ble] (75,-7.2) -- node[lbl] {notification, 42\,B} (0,-7.2);
+  \node at (37.5,-7.7) {$\vdots$};
+  \draw[ble] (75,-8.2) -- node[lbl] {notification, 42\,B} (0,-8.2);
+  \draw[decorate, decoration={brace, amplitude=2mm}] (78,-8.3) -- (78,-6.5)
+        node[note, midway, xshift=3mm] {every 40\,ms\\(25\,frames/s)};
+\end{tikzpicture}

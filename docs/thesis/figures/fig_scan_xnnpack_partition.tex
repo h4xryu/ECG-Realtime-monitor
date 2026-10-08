@@ -1,0 +1,82 @@
+% Sequential AtenMamba after XnnpackPartitioner (L = 501).
+% Skip term d*x_t and layout ops (unsqueeze/permute/view) omitted. Include without \resizebox.
+\begin{tikzpicture}[
+  arr/.style={-{Latex[length=2mm]}},
+  sel/.style={draw, rounded corners=2pt, fill=black!10, minimum width=0.95cm, minimum height=0.55cm, inner sep=1pt},
+  box/.style={draw, rounded corners=2pt, minimum height=0.55cm, inner sep=2pt},
+  mul/.style={circle, draw, fill=white, minimum size=5mm, inner sep=0pt, label={[inner sep=0pt]center:\tikz\fill circle (1.1pt);}},
+  add/.style={circle, draw, fill=white, minimum size=5mm, inner sep=0pt},
+  xnnfill/.style={draw=blue!50!black, dashed, rounded corners=3pt, fill=blue!8},
+]
+  \node[box, minimum width=11.4cm] (memAB) at (5.2,0) {$\overline{\mathbf{A}},\ \mathbf{b}\ (D,T,N)$};
+  \node[box, minimum width=11.4cm] (memC) at (5.2,-5.9) {$\mathbf{C}\ (N,T)$};
+  \draw[xnnfill] (-0.25,-1.9) rectangle (11.95,-4.05);
+  \node at (-0.75,-2.4) {$\mathbf{H}_0$};
+  \draw[arr] (-0.45,-2.4) -- (0.25,-2.4);
+  \node[sel] (sa0) at (0.4,-1.1) {$\overline{\mathbf{A}}_{1}$};
+  \node[sel] (sb0) at (1.5,-1.1) {$\mathbf{b}_{1}$};
+  \node[sel] (sc0) at (2.1,-4.8) {$\mathbf{C}_{1}$};
+  \draw[arr] (0.4,-0.275) -- (sa0.north);
+  \draw[arr] (1.5,-0.275) -- (sb0.north);
+  \draw[arr] (2.1,-5.625) -- (sc0.south);
+  \node[mul] (m0) at (0.4,-2.4) {};
+  \node[add] (p0) at (1.5,-2.4) {$+$};
+  \draw[arr] (sa0) -- (m0);
+  \draw[arr] (sb0) -- (p0);
+  \draw[arr] (m0) -- (p0);
+  \draw (p0) -- (2.1,-2.4);
+  \fill (2.1,-2.4) circle (0.05);
+  \node[box] (r0) at (2.1,-3.45) {$\mathbf{H}_{1}\mathbf{C}_{1}$};
+  \draw[arr] (2.1,-2.4) -- (r0);
+  \draw[arr] (sc0) -- (r0);
+  \draw[arr] (r0.east) -- ++(0.3,0) node[right, inner sep=1pt] {$\mathbf{y}_{1}$};
+  \node[sel] (sa1) at (4.0,-1.1) {$\overline{\mathbf{A}}_{2}$};
+  \node[sel] (sb1) at (5.1,-1.1) {$\mathbf{b}_{2}$};
+  \node[sel] (sc1) at (5.7,-4.8) {$\mathbf{C}_{2}$};
+  \draw[arr] (4.0,-0.275) -- (sa1.north);
+  \draw[arr] (5.1,-0.275) -- (sb1.north);
+  \draw[arr] (5.7,-5.625) -- (sc1.south);
+  \node[mul] (m1) at (4.0,-2.4) {};
+  \node[add] (p1) at (5.1,-2.4) {$+$};
+  \draw[arr] (sa1) -- (m1);
+  \draw[arr] (sb1) -- (p1);
+  \draw[arr] (m1) -- (p1);
+  \draw (p1) -- (5.7,-2.4);
+  \fill (5.7,-2.4) circle (0.05);
+  \node[box] (r1) at (5.7,-3.45) {$\mathbf{H}_{2}\mathbf{C}_{2}$};
+  \draw[arr] (5.7,-2.4) -- (r1);
+  \draw[arr] (sc1) -- (r1);
+  \draw[arr] (r1.east) -- ++(0.3,0) node[right, inner sep=1pt] {$\mathbf{y}_{2}$};
+  \node[sel] (sa2) at (8.8,-1.1) {$\overline{\mathbf{A}}_{T}$};
+  \node[sel] (sb2) at (9.9,-1.1) {$\mathbf{b}_{T}$};
+  \node[sel] (sc2) at (10.5,-4.8) {$\mathbf{C}_{T}$};
+  \draw[arr] (8.8,-0.275) -- (sa2.north);
+  \draw[arr] (9.9,-0.275) -- (sb2.north);
+  \draw[arr] (10.5,-5.625) -- (sc2.south);
+  \node[mul] (m2) at (8.8,-2.4) {};
+  \node[add] (p2) at (9.9,-2.4) {$+$};
+  \draw[arr] (sa2) -- (m2);
+  \draw[arr] (sb2) -- (p2);
+  \draw[arr] (m2) -- (p2);
+  \draw (p2) -- (10.5,-2.4);
+  \fill (10.5,-2.4) circle (0.05);
+  \node[box] (r2) at (10.5,-3.45) {$\mathbf{H}_{T}\mathbf{C}_{T}$};
+  \draw[arr] (10.5,-2.4) -- (r2);
+  \draw[arr] (sc2) -- (r2);
+  \draw[arr] (r2.east) -- ++(0.3,0) node[right, inner sep=1pt] {$\mathbf{y}_{T}$};
+  \draw[arr] (2.1,-2.4) -- node[below] {$\mathbf{H}_1$} (m1);
+  \draw (5.7,-2.4) -- node[below] {$\mathbf{H}_2$} (6.75,-2.4);
+  \node at (7.2,-2.4) {$\cdots$};
+  \draw[arr] (7.65,-2.4) -- node[below] {$\mathbf{H}_{T-1}$} (m2);
+  \draw[arr] (10.5,-2.4) -- (12.35,-2.4) node[right] {$\mathbf{H}_T$};
+  \node at (7.2,-1.1) {$\cdots$};
+  \node at (7.2,-4.8) {$\cdots$};
+  % legend
+  \node[sel, minimum width=0.6cm, minimum height=0.35cm] at (0.0,-6.85) {};
+  \node[anchor=west] at (0.4,-6.85) {CPU: time-step select};
+  \node[xnnfill, minimum width=0.6cm, minimum height=0.35cm] at (0.0,-7.45) {};
+  \node[anchor=west] (lx) at (0.4,-7.45) {XNNPACK:};
+  \node[mul, anchor=west] (lm) at ([xshift=3pt]lx.east) {};
+  \node[add, anchor=west] (la) at ([xshift=4pt]lm.east) {$+$};
+  \node[anchor=west, inner sep=2pt] at ([xshift=2pt]la.east) {$\mathbf{H}\mathbf{C}$};
+\end{tikzpicture}
