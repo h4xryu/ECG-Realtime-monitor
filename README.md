@@ -26,8 +26,9 @@ February 2027).
   window in the ECG waveform (minimum 240 ms between consecutive R-peaks; unit-tested on
   real recordings: 98% within 60 ms, 0 ms median error)
 - **Arrhythmia classification** — 5-class (Normal / Sinus Tachycardia / APC / AF/AFL / VPC)
-  sigmoid multi-label output from ResDSUMamba, with sinus tachycardia determined by a
-  **heart-rate (BPM) rule** rather than the model logit
+  sigmoid multi-label output from ResDSUMamba's 6 model logits, with the bradycardia logit
+  dropped and bradycardia instead determined by a **heart-rate (BPM) rule**
+  (BPM < 60, cleared ≥ 62) rather than a model logit
 - **Personalization (CPC)** — a 60 s label-free calibration segment is encoded into a
   256-dim patient embedding vector (PEV) `patient_vec[256]` via a contrastive
   predictive coding (CPC) encoder, used to condition every subsequent beat classification
@@ -94,8 +95,9 @@ Set the SDK path in `local.properties` (git-ignored). The ExecuTorch runtime is
 
 Constants: `FS = 250 Hz`, ADC → mV = `(adc − 16384) / 1000`, beat window 501 samples
 (±250 samples ≈ ±1.0 s), 32-dim clinical features, 59 calibration windows (60 s record,
-2 s window, 1 s stride). The sinus-tachycardia logit (index 4) is discarded and replaced
-by the BPM rule.
+2 s window, 1 s stride). The bradycardia logit (model index 4) is discarded; bradycardia
+is instead determined by a BPM rule (< 60 bpm, cleared ≥ 62 bpm). The remaining 5 logits
+map 1:1 to the displayed classes (Normal, Sinus Tachycardia, APC, AF/AFL, VPC).
 
 > **Note on the ADC→mV constant:** the thesis's Eq. 4.1 describes a different BLE ECG
 > encoding (two 7-bit fields packed into a 14-bit value, offset 8192) than what this app
