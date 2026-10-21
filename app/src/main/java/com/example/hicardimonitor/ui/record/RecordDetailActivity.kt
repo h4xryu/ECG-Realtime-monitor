@@ -1,5 +1,6 @@
 package com.example.hicardimonitor.ui.record
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
@@ -18,8 +19,12 @@ import com.example.hicardimonitor.data.DiagnosisRecord
 import com.example.hicardimonitor.data.RecordMatActions
 import com.example.hicardimonitor.data.RecordingPdfExporter
 import com.example.hicardimonitor.data.RecordRepository
+import com.example.hicardimonitor.data.network.ApiResult
+import com.example.hicardimonitor.data.network.EcgUploadRepository
+import com.example.hicardimonitor.data.network.SessionManager
 import com.example.hicardimonitor.session.PersonalizationQuality
 import com.example.hicardimonitor.ui.MainActivity
+import com.example.hicardimonitor.ui.auth.LoginActivity
 import com.example.hicardimonitor.ui.widget.EmbeddingView
 import com.example.hicardimonitor.ui.widget.PersonalizationMetricsView
 import com.example.hicardimonitor.ui.widget.SaliencyWaveView
@@ -54,6 +59,12 @@ class RecordDetailActivity : AppCompatActivity() {
     } catch (e: Exception) {
       Toast.makeText(this, "저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
     }
+  }
+
+  private val loginLauncher = registerForActivityResult(
+    ActivityResultContracts.StartActivityForResult(),
+  ) { result ->
+    if (result.resultCode == RESULT_OK) uploadToServer()
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,8 +106,30 @@ class RecordDetailActivity : AppCompatActivity() {
     findViewById<Button>(R.id.saveMatButton).setOnClickListener { exportAndSaveMat() }
     findViewById<Button>(R.id.shareMatButton).setOnClickListener { exportAndShareMat() }
     findViewById<Button>(R.id.sharePdfButton).setOnClickListener { exportAndSharePdf() }
+    findViewById<Button>(R.id.uploadButton).setOnClickListener { uploadToServer() }
 
     if (record.isPersonalization) setupPersonalization()
+  }
+
+  // ── 서버 업로드 ──────────────────────────────────────────────────────────
+  private fun uploadToServer() {
+    if (!SessionManager.isLoggedIn(this)) {
+      Toast.makeText(this, R.string.upload_login_required, Toast.LENGTH_SHORT).show()
+      loginLauncher.launch(Intent(this, LoginActivity::class.java))
+      return
+    }
+
+    val uploadButton = findViewById<Button>(R.id.uploadButton)
+    uploadButton.isEnabled = false
+    Toast.makeText(this, R.string.upload_in_progress, Toast.LENGTH_SHORT).show()
+
+    EcgUploadRepository.upload(this, record) { result ->
+      uploadButton.isEnabled = true
+      when (result) {
+        is ApiResult.Success -> Toast.makeText(this, R.string.upload_success, Toast.LENGTH_SHORT).show()
+        is ApiResult.Failure -> Toast.makeText(this, result.message, Toast.LENGTH_LONG).show()
+      }
+    }
   }
 
   // ── 개인화 지표·임베딩·CAM ────────────────────────────────────────────────

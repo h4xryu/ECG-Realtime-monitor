@@ -69,5 +69,72 @@
                 android:text="classifier: ..." />
         </LinearLayout>
 
+        <TextView
+            style="@style/HiCardiOverline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/cloud_account_title" />
+
+        <LinearLayout
+            style="@style/HiCardiPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/accountStatusText"
+                style="@style/HiCardiBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cloud_account_logged_out" />
+
+            <EditText
+                android:id="@+id/serverUrlEdit"
+                style="@style/HiCardiEdit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_height"
+                android:layout_marginTop="@dimen/gap_item"
+                android:gravity="start|center_vertical"
+                android:hint="@string/server_url_hint"
+                android:inputType="textUri"
+                android:maxLines="1" />
+
+            <LinearLayout
+                android:id="@+id/accountButtonsRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_item"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/loginButton"
+                    style="@style/HiCardiButtonGhost"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/cloud_account_login" />
+
+                <Button
+                    android:id="@+id/signupButton"
+                    style="@style/HiCardiButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_weight="1"
+                    android:text="@string/cloud_account_signup" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/logoutButton"
+                style="@style/HiCardiButtonGhost"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_height"
+                android:layout_marginTop="@dimen/gap_item"
+                android:text="@string/cloud_account_logout"
+                android:visibility="gone" />
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

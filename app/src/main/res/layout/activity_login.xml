@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/pad_screen">
+
+        <TextView
+            style="@style/HiCardiTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/login_title" />
+
+        <EditText
+            android:id="@+id/usernameEdit"
+            style="@style/HiCardiEdit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_section"
+            android:gravity="start|center_vertical"
+            android:hint="@string/login_username"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <EditText
+            android:id="@+id/passwordEdit"
+            style="@style/HiCardiEdit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_item"
+            android:gravity="start|center_vertical"
+            android:hint="@string/login_password"
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/loginErrorText"
+            style="@style/HiCardiCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/text_error"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/loginSubmitButton"
+            style="@style/HiCardiButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_section"
+            android:text="@string/login_submit" />
+
+        <TextView
+            android:id="@+id/goSignupText"
+            style="@style/HiCardiBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_item"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/login_go_signup"
+            android:textColor="@color/text_accent" />
+
+    </LinearLayout>
+</ScrollView>

@@ -52,6 +52,7 @@ dependencies {
 
     // ExecuTorch — export(pip executorch) 버전과 맞출 것. 구형 libs/executorch.aar 는 demo Mamba PTE operator missing(0x14).
     implementation(libs.executorch.android)
+    implementation(libs.okhttp)
     implementation("com.facebook.soloader:nativeloader:0.10.5")
     implementation("com.facebook.fbjni:fbjni:0.5.1")
     testImplementation(libs.junit)

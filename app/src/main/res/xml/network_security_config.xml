@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Allows plain HTTP only to local-dev hosts, so the server base URL can point at
+  "http://10.0.2.2:<port>/" (Android emulator's alias for the host machine) or
+  "http://localhost:<port>/" (physical device, via `adb reverse tcp:<port> tcp:<port>`)
+  while developing against `next dev`/`next start` without TLS. Everything else still
+  requires HTTPS. A LAN IP (phone and dev machine on the same Wi-Fi, no adb reverse)
+  isn't covered here since the IP isn't known ahead of time — add a <domain> entry for
+  it, or just use adb reverse. Once the backend is served over HTTPS, this file (and the
+  manifest reference to it) can be removed.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

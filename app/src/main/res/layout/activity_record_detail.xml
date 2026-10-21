@@ -114,5 +114,13 @@
             android:layout_marginTop="@dimen/gap_item"
             android:text="@string/share_mat" />
 
+        <Button
+            android:id="@+id/uploadButton"
+            style="@style/HiCardiButtonGhost"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginTop="@dimen/gap_item"
+            android:text="@string/upload_to_server" />
+
     </LinearLayout>
 </ScrollView>

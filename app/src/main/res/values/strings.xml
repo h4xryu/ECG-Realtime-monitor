@@ -101,4 +101,30 @@
     <string name="personalization_metrics_label">지표</string>
     <string name="personalization_embedding_label">임베딩</string>
     <string name="personalization_analyzing">분석 중…</string>
+
+    <!-- Cloud account / server sync -->
+    <string name="cloud_account_title">클라우드 계정</string>
+    <string name="cloud_account_logged_in">%1$s 님으로 로그인됨</string>
+    <string name="cloud_account_logged_out">로그인하면 기록을 서버에 업로드할 수 있어요</string>
+    <string name="cloud_account_login">로그인</string>
+    <string name="cloud_account_signup">회원가입</string>
+    <string name="cloud_account_logout">로그아웃</string>
+    <string name="login_title">로그인</string>
+    <string name="login_username">아이디</string>
+    <string name="login_password">비밀번호</string>
+    <string name="login_submit">로그인</string>
+    <string name="login_go_signup">계정이 없으신가요? 회원가입</string>
+    <string name="login_error_blank">아이디와 비밀번호를 입력하세요</string>
+    <string name="signup_title">회원가입</string>
+    <string name="signup_username_hint">영문/숫자, 3~32자</string>
+    <string name="signup_password_hint">8자 이상</string>
+    <string name="signup_password_confirm">비밀번호 확인</string>
+    <string name="signup_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="signup_submit">가입하기</string>
+    <string name="server_url_title">서버 주소</string>
+    <string name="server_url_hint">http://10.0.2.2:3000/api/</string>
+    <string name="upload_to_server">서버로 업로드</string>
+    <string name="upload_login_required">업로드하려면 먼저 로그인하세요</string>
+    <string name="upload_success">서버 업로드 완료</string>
+    <string name="upload_in_progress">업로드 중…</string>
 </resources>
