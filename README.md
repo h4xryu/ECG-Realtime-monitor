@@ -25,9 +25,9 @@ February 2027).
   which lags the true QRS location by roughly `Δtag ≈ 340 ms`, by searching a backward
   window in the ECG waveform (minimum 240 ms between consecutive R-peaks; unit-tested on
   real recordings: 98% within 60 ms, 0 ms median error)
-- **Arrhythmia classification** — 5-class (Normal / Sinus Tachycardia / APC / AF/AFL / VPC)
-  sigmoid multi-label output from ResDSUMamba, with sinus tachycardia determined by a
-  **heart-rate (BPM) rule** rather than the model logit
+- **Arrhythmia classification** — Beat-level 3-class (Normal / Atrial Premature Contraction / Ventricular Premature Contraction)
+  + Rhythm level (independent classifier) 2-class (Sinus Tachycardia / Atrial Fibrillation / Atrial Flutter) from ResDSUMamba, with sinus tachycardia determined by a
+  **heart-rate (BPM) rule** + Bradycardia (< 60 BPM)
 - **Personalization (CPC)** — a 60 s label-free calibration segment is encoded into a
   256-dim patient embedding vector (PEV) `patient_vec[256]` via a contrastive
   predictive coding (CPC) encoder, used to condition every subsequent beat classification
@@ -58,7 +58,7 @@ flowchart LR
   SENS["HiCardi patch<br/>250 Hz &middot; 0xFF R-peak tag"] -->|BLE, 42-byte frames| BLE["HiCardiBleSource<br/>parse &middot; filter &middot; lead-off"]
   BLE --> COORD["HiCardiCoordinator<br/>orchestration"]
   COORD --> RPT["SensorRPeakTracker<br/>R-peak realignment &middot; BPM"]
-  COORD --> AIE["ArrhythmiaInferenceEngine"] --> CLS["classifier.pte<br/>5-class + BPM rule"]
+  COORD --> AIE["ArrhythmiaInferenceEngine"] --> CLS["classifier.pte<br/>beat 3-class + rhythm 2-class + BPM rule"]
   COORD --> CPC["CpcRunner<br/>cpc_model.pte"]
   COORD --> REPO["RecordRepository"] --> EXP["MAT / NPZ / PDF"]
   COORD -. listeners .-> UI["Monitor / Recording / Record / Personalization"]
