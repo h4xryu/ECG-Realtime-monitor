@@ -5,40 +5,13 @@
 
 - 대상 플랫폼: Android (minSdk 확인 요), Kotlin, ExecuTorch(온디바이스 추론)
 - 센서: HiCardi 패치 `EB:B5:51:19:06:24` / `HiCardi-07143`, Nordic UART Service
-- 표본화율: **250 Hz**
+- 샘플링레이트: 250 Hz
 - 온디바이스 모델: `cpc_model.pte`(개인화 인코더), `classifier.pte`(6-로짓 부정맥 분류기), `model.pte`(레거시 27-class)
 
----
-
-## 1. 개발 진행도 (Progress)
-
-| 영역 | 기능 | 상태 | 검증 |
-|---|---|---|---|
-| BLE | 42-byte 프레임 파싱, 0xFF R-peak 태그, 온도/텔레메트리 분리 | ✅ 완료 | 라이브 캡처 대조 |
-| BLE | 패킷 유실(gap) 감지, 비생리 이상치 폐기 | ✅ 완료 | — |
-| BLE | **lead-off 휴리스틱**(폐기 비율 기반, 히스테리시스) | ✅ 완료 | 로그 확인(실전극 탈착 확인 권장) |
-| 신호 | OnlineFilter(HP+50Hz notch+LP), 실시간 표시 신호 | ✅ 기존 | — |
-| 신호 | **R-peak 위치 backward 재스냅**(0xFF ~340ms 지연 보정) | ✅ 완료 | JVM 단위테스트: n=64, 98%@60ms, 중앙값 0ms |
-| 신호 | BPM(중앙값 RR), 짝수 배열 중앙값 보정 | ✅ 완료 | — |
-| 모니터 | 실시간 sweep 플롯, **임상 캘리브레이션(20mm/mV·25mm/s)** | ✅ 완료 | 스크린샷 대조 |
-| 모니터 | **진짜 mV 표시(÷1000, SSOT)** — 기존 /32 폐기 | ✅ 완료 | — |
-| 추론 | 6→**5클래스** 부정맥(서맥 로짓 폐기), sigmoid 멀티라벨 | ✅ 완료 | — |
-| 추론 | **서맥 rule-based**(BPM 히스테리시스, 모델 미사용) | ✅ 완료 | — |
-| 추론 | **lead-off 시 모델 게이팅**(추론·R-peak·BPM 중단) | ✅ 완료 | — |
-| 개인화 | CPC 60초 캘리브레이션 → patient_vec[256] | ✅ 기존 | — |
-| 개인화 | **CALIB 윈도우 수 16→59 정정**(SSOT 정합) | ✅ 완료 | 빌드·로드 확인 |
-| 개인화 | 레거시 model.pte calib shape 불일치 안전 폴백 | ✅ 완료 | — |
-| 레코딩 | 무제한 연속 녹화(중지 시점까지), 저장/삭제 | ✅ 완료 | — |
-| 레코딩 | **내보내기: ADC/mV × MAT5/NPZ** 옵션, 스트리밍 작성 | ✅ 완료 | scipy/numpy 로드 검증 |
-| 성능 | 탭 전환 잰크 제거(비동기 목록, 메타 사이드카, 오프스크린 정지) | ✅ 완료 | gfxinfo: 99p 2650ms→17ms |
-| 성능 | UI 펄스 병합·값변경 게이팅, @Volatile/CopyOnWriteArrayList | ✅ 완료 | — |
-| 남은 과제 | 움직임 구간 품질 게이팅(motion SQI) | ⏳ 예정 | — |
-| 남은 과제 | 저장 상세(RecordDetail) full-JSON 파싱 비동기화 | ⏳ 예정 | — |
-| 남은 과제 | 실 sensor 라이브 파형으로 캘리브레이션 최종 확인 | ⏳ 예정 | — |
 
 ---
 
-## 2. 시스템 아키텍처 (Component / Deployment)
+## 1. 시스템 아키텍처 (Component / Deployment)
 
 ```mermaid
 flowchart TB
