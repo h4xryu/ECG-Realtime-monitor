@@ -36,6 +36,9 @@ object EcgUploadRepository {
       for (v in signal) signalArray.put(v.toDouble())
 
       val body = JSONObject().apply {
+        // Lets the server de-duplicate a retried upload of this same local record (WorkManager
+        // retry queue, for example) instead of saving it twice.
+        put("clientRecordId", record.id)
         put("deviceId", JSONObject.NULL)
         put("recordedAt", record.startedAtMs)
         put("fs", record.fs)
