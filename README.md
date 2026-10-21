@@ -47,7 +47,6 @@ February 2027).
 |---|
 | ![monitor](docs/img/monitor_calibrated.png) |
 | Strip-view PDF report |
-|---|
 | ![strip pdf](docs/img/strip_report.png) |
 
 ---
