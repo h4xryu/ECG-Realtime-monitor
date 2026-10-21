@@ -53,16 +53,7 @@ February 2027).
 
 ## Architecture Overview
 
-```mermaid
-flowchart LR
-  SENS["HiCardi patch<br/>250 Hz &middot; 0xFF R-peak tag"] -->|BLE, 42-byte frames| BLE["HiCardiBleSource<br/>parse &middot; filter &middot; lead-off"]
-  BLE --> COORD["HiCardiCoordinator<br/>orchestration"]
-  COORD --> RPT["SensorRPeakTracker<br/>R-peak realignment &middot; BPM"]
-  COORD --> AIE["ArrhythmiaInferenceEngine"] --> CLS["classifier.pte<br/>beat 3-class + rhythm 2-class + BPM rule"]
-  COORD --> CPC["CpcRunner<br/>cpc_model.pte"]
-  COORD --> REPO["RecordRepository"] --> EXP["MAT / NPZ / PDF"]
-  COORD -. listeners .-> UI["Monitor / Recording / Record / Personalization"]
-```
+![Architecture](docs/img/overall_architecture.png) 
 
 This mirrors the end-to-end pipeline in Chapter 4 of the thesis (BLE acquisition →
 on-device signal reconstruction → R-peak alignment → beat-level classification → display).
