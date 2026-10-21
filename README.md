@@ -11,6 +11,16 @@ This app is the on-device implementation companion to the master's thesis
 *"Lightweight ResUMamba-based On-Device Real-Time Arrhythmia Classification for
 Wearable ECG Monitoring"* (Ryuha Kim, Dept. of Computer Science, Yonsei University,
 February 2027).
+---
+
+## Architecture Overview
+
+![Architecture](docs/img/overall_architecture.png) 
+
+The end-to-end pipeline (BLE acquisition →
+on-device signal reconstruction → R-peak alignment → beat-level classification → display).
+See the [design specification](docs/DESIGN_SPEC.md) for the full component, class,
+sequence, and state diagrams.
 
 > For the full design, UML, algorithms, and specification, see
 > **[docs/DESIGN_SPEC.md](docs/DESIGN_SPEC.md)**.
@@ -49,16 +59,6 @@ February 2027).
 | Strip-view PDF report |
 | ![strip pdf](docs/img/strip_report.png) |
 
----
-
-## Architecture Overview
-
-![Architecture](docs/img/overall_architecture.png) 
-
-The end-to-end pipeline (BLE acquisition →
-on-device signal reconstruction → R-peak alignment → beat-level classification → display).
-See the [design specification](docs/DESIGN_SPEC.md) for the full component, class,
-sequence, and state diagrams.
 
 ---
 
