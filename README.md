@@ -55,7 +55,7 @@ February 2027).
 
 ![Architecture](docs/img/overall_architecture.png) 
 
-This mirrors the end-to-end pipeline in Chapter 4 of the thesis (BLE acquisition →
+The end-to-end pipeline (BLE acquisition →
 on-device signal reconstruction → R-peak alignment → beat-level classification → display).
 See the [design specification](docs/DESIGN_SPEC.md) for the full component, class,
 sequence, and state diagrams.
