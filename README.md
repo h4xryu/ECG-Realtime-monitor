@@ -7,12 +7,6 @@ patient-conditioned variant of ResUMamba [Heo et al.], together with CPC-based p
 personalization, clinical-calibration display, and continuous recording with
 multi-format export (MAT/NPZ/PDF).
 
-This app is the on-device implementation companion to the master's thesis
-*"Lightweight ResUMamba-based On-Device Real-Time Arrhythmia Classification for
-Wearable ECG Monitoring"* (Ryuha Kim, Dept. of Computer Science, Yonsei University,
-February 2027).
----
-
 ## Architecture Overview
 
 ![Architecture](docs/img/overall_architecture.png) 
@@ -24,6 +18,12 @@ sequence, and state diagrams.
 
 > For the full design, UML, algorithms, and specification, see
 > **[docs/DESIGN_SPEC.md](docs/DESIGN_SPEC.md)**.
+> 
+This app is the on-device implementation companion to the master's thesis
+*"Lightweight ResUMamba-based On-Device Real-Time Arrhythmia Classification for
+Wearable ECG Monitoring"* (Ryuha Kim, Dept. of Computer Science, Yonsei University,
+February 2027).
+
 
 ---
 
