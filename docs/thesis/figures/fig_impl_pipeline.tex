@@ -1,0 +1,64 @@
+% fig_impl_pipeline.tex
+% Real-time processing pipeline.
+% Three worker threads run as columns; the UI thread is the band at the bottom.
+% Absolute coordinates only. Gray fill is used for buffers only.
+% Convention: BLE transfers are drawn as blue dashed arrows.
+\providecolor{bleblue}{RGB}{0,112,192}
+\begin{tikzpicture}[>=Stealth, thick, x=1mm, y=1mm,
+  blk/.style={draw, thick, align=center, text width=25mm,
+              minimum height=9mm, inner sep=1pt, anchor=north},
+  buf/.style={blk, fill=gray!15},
+  head/.style={align=center, anchor=north, font=\bfseries},
+  arr/.style={->, thick},
+  ble/.style={->, thick, densely dashed, bleblue}]
+
+  %% ---------------- headers ----------------
+  \node[head] (h1) at (14, 0) {BLE callback};
+  \node[head] (h2) at (48, 0) {Reception};
+  \node[head] (h3) at (82, 0) {Inference};
+
+  %% ---------------- column 1 ----------------
+  \node[blk] (a1) at (14, -10) {frame check,\\14-bit decode};
+  \node[blk] (a2) at (14, -24) {lead-off state};
+  \node[blk] (a3) at (14, -38) {display filter};
+
+  %% ---------------- column 2 ----------------
+  \node[blk] (b1) at (48, -10) {R-peak tracker};
+  \node[buf] (b2) at (48, -24) {record buffer};
+  \node[blk] (b3) at (48, -38) {UI queue};
+
+  %% ---------------- column 3 ----------------
+  \node[buf] (c1) at (82, -10) {ring buffer};
+  \node[blk] (c2) at (82, -24) {beat window,\\features};
+  \node[blk] (c3) at (82, -38) {ResUMamba};
+  \node[blk] (c4) at (82, -52) {
+  
+  threshold};
+
+  %% ---------------- personalization (side input) ----------------
+  \node[blk, densely dashed] (p1) at (116, -38) {CPC encoder\\(PEV, once)};
+  \draw[arr, densely dashed] (p1.west) -- (c3.east);
+
+  %% ---------------- UI band ----------------
+  \node[head] (h4) at (14, -76) {UI (main)};
+  \node[blk] (d1) at (48, -76) {ECG sweep view};
+  \node[blk] (d2) at (82, -76) {HR, labels, status};
+
+  %% ---------------- input ----------------
+  \draw[ble] (14, -6) -- (a1.north);
+  \node[anchor=west] at (17, 4) {BLE, 42\,B / 40\,ms};
+
+  %% ---------------- vertical flows ----------------
+  \foreach \s/\t in {a1/a2, a2/a3, b1/b2, b2/b3, c1/c2, c2/c3, c3/c4}
+    \draw[arr] (\s.south) -- (\t.north);
+  \draw[arr] (b3.south) -- (d1.north);
+  \draw[arr] (c4.south) -- (d2.north);
+
+  %% ---------------- hand-offs between threads ----------------
+  \draw[arr] (a3.east) -- (31,-42.5) -- (31,-14.5) -- (b1.west);
+  \draw[arr] (b1.east) -- (c1.west);
+
+  %% ---------------- separators ----------------
+  \foreach \x in {31, 65, 99} \draw[gray!60, densely dashed, thin] (\x, 4) -- (\x, -68);
+  \draw[gray!60, densely dashed, thin] (-2, -68) -- (132, -68);
+\end{tikzpicture}

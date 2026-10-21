@@ -1,0 +1,78 @@
+% fig_impl_timing.tex
+% Timing of one beat, matching Eq. (4.2): D_k = max(RR^post + Delta_tag, W_post/f_s).
+% 75 bpm: R_k at 200 ms, R_{k+1} at 1000 ms, Delta_tag = 340 ms.
+%   W_post/f_s      = 1.00 s -> input filled at 1200 ms
+%   RR^post + Delta = 1.14 s -> next R-peak confirmed at 1340 ms  (active term)
+% Requires: \usetikzlibrary{decorations.pathreplacing}
+\providecolor{bleblue}{RGB}{0,112,192}
+\begin{tikzpicture}[
+  x=0.062mm, y=8.5mm, >=Stealth, thick,
+  lane/.style={anchor=east, align=right},
+  sample/.style={draw=gray!60, thin, fill=white, minimum width=2.0mm, minimum height=2.6mm, inner sep=0pt},
+  rpeak/.style={draw, very thick, fill=gray!35, minimum width=2.0mm, minimum height=2.6mm, inner sep=0pt},
+  frm/.style={draw=gray!60, thin, fill=white, minimum width=2.0mm, minimum height=2.6mm, inner sep=0pt},
+  flag/.style={draw=bleblue, very thick, fill=white, minimum width=2.0mm, minimum height=2.6mm, inner sep=0pt},
+  rxbox/.style={draw, very thick, fill=white, minimum width=2.0mm, minimum height=2.6mm, inner sep=0pt},
+  job/.style={draw, very thick, fill=gray!20, minimum height=3.8mm, inner sep=0pt},
+  ble/.style={->, thick, densely dashed, bleblue},
+  lbl/.style={anchor=center, inner sep=2pt, fill=white},
+  guide/.style={densely dashed, gray!55, thin},
+  barrier/.style={densely dashed, thick},
+  span/.style={<->, thick}]
+
+  %% ---------------- input waiting window ----------------
+  \fill[gray!10] (200,0.9) rectangle (1340,-4.5);
+  \draw[barrier] (200,0.9) -- (200,-7.0);
+  \draw[barrier] (1340,1.5) -- (1340,-7.0);
+  \node[anchor=south] at (1340,1.5) {input ready};
+
+  %% ---------------- lanes ----------------
+  \foreach \yy/\lab in {0/{ECG}, -1/{BLE}, -2/{Receive}, -3/{Inference}, -4/{UI}} {
+    \node[lane] at (-40,\yy) {\lab};
+    \draw[gray!45, thin] (0,\yy) -- (1700,\yy);
+  }
+
+  %% ---------------- ECG samples ----------------
+  \foreach \t in {20,60,...,1720} { \node[sample] at (\t,0) {}; }
+  \node[rpeak] at (200,0)  {};
+  \node[rpeak] at (1000,0) {};
+  \node[above, inner sep=2pt, fill=white] at (200,0.3)  {$R_k$};
+  \node[above, inner sep=2pt, fill=white] at (1000,0.3) {$R_{k+1}$};
+
+  %% ---------------- BLE frames; tag arrives Delta_tag after the QRS ----------------
+  \foreach \t in {25,75,...,1700} { \node[frm] at (\t,-1) {}; }
+  \draw[ble] (200,-0.25) -- (200,-0.85) -- (525,-0.85);
+  \draw[ble] (1000,-0.25) -- (1000,-0.85) -- (1325,-0.85);
+  \node[lbl] at (375,-0.85)  {$\Delta_{\mathrm{tag}}$};
+  \node[lbl] at (1175,-0.85) {$\Delta_{\mathrm{tag}}$};
+  \node[flag] at (540,-1)  {};
+  \node[flag] at (1340,-1) {};
+
+  %% ---------------- reception: backward alignment ----------------
+  \node[rxbox] at (540,-2)  {};
+  \node[rxbox] at (1340,-2) {};
+  \draw[->] (525,-2) -- (215,-2);
+  \draw[->] (1325,-2) -- (1015,-2);
+  \node[anchor=north, inner sep=2pt, fill=white] at (370,-2.12)  {R-peak alignment};
+  \draw[guide] (1000,0.2) -- (1000,-2.2);
+
+  %% ---------------- inference and display ----------------
+  \node[job, minimum width=12mm, anchor=west] (inf) at (1345,-3) {};
+  \node[job, minimum width=1.8mm, anchor=west] (ui) at (1440,-4) {};
+  \draw[->] (1440,-3.25) -- (1440,-3.80);
+
+  %% ---------------- Eq. (4.2) ----------------
+  \draw[guide] (1200,-4.5) -- (1200,-7.0);
+  \draw[span] (200,-5.4) -- (1200,-5.4)
+        node[midway, above, inner sep=2pt] {$W_{\mathrm{post}}/f_s$};
+  \draw[span] (200,-6.2) -- (1340,-6.2)
+        node[midway, above, inner sep=2pt] {$\mathrm{RR}^{\mathrm{post}}_k+\Delta_{\mathrm{tag}}$};
+  \draw[span, very thick] (200,-7.0) -- (1340,-7.0)
+        node[midway, above, inner sep=2pt] {$D_k$};
+  \draw[span, very thick] (1340,-7.0) -- (1480,-7.0);
+  \node[anchor=west, inner sep=3pt] at (1490,-7.0) {$T_{\mathrm{beat}}$};
+
+  %% ---------------- time axis ----------------
+  \draw[->] (0,-7.9) -- (1730,-7.9) node[right] {Time (ms)};
+  \foreach \t in {0,200,...,1600} { \draw (\t,-7.84) -- (\t,-7.96) node[below] {\t}; }
+\end{tikzpicture}

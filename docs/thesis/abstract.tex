@@ -1,0 +1,57 @@
+\begin{abstract}
+
+\begin{center}
+{\LARGE Lightweight ResUMamba-based On-Device Real-Time\\
+Arrhythmia Classification for Wearable ECG Monitoring}
+\end{center}
+
+\begin{flushright}
+\parbox[t]{0.9\textwidth}
+{
+\begin{flushright}
+{\bf \txtAuthor}\\
+Department of Computer Science\\
+The Graduate School, Yonsei University, Korea
+\end{flushright}
+}
+\end{flushright}
+
+\vspace{1em}
+
+Wearable ECG patches enable long-term monitoring of intermittent arrhythmias
+during everyday life, but long recordings are difficult to review manually,
+and cloud-based analysis introduces additional communication and data-processing
+steps. This thesis deploys the existing patient-conditioned ResUMamba beat
+classifier on a smartphone and evaluates a lightweight model variant together
+with a CPU-oriented deployment approach. The ResU path is modified by replacing
+standard convolutions with depthwise separable convolutions and replacing the
+decoder's transposed convolutions with parameter-free linear interpolation,
+yielding ResDSUMamba, while the Mamba selective scan is rewritten using standard
+PyTorch ATen operators and represented as a sequential graph unrolled over the
+fixed input length of $T=501$. No new classifier architecture is introduced.
+
+ResDSUMamba has 1.3225 M parameters and 331.38 M MACs, compared with 2.4883 M
+and 721.50 M for ResUMamba, corresponding to reductions of 46.9\% and 54.1\%,
+respectively.
+On a record-wise split of the HiCardi dataset, the Macro-$F_1$ and Micro-$F_1$
+of ResDSUMamba are 44.15\% and 83.29\%, compared with 42.28\% and 79.27\% for
+ResUMamba, while Macro-Se decreases from 78.00\% to 75.72\%.
+On a Galaxy S21+ (Exynos 2100) using a single Cortex-X1 thread in FP32, XNNPACK
+delegation reduces the mean $T_{\mathrm{model}}$ of ResUMamba from 1073.57 ms to
+48.25 ms, and DSConv reduces it further to 36.70 ms for ResDSUMamba, with a P95
+of 38.90 ms.
+In a live patch-connected session lasting 309.21 s, 413 beats were processed
+at a reported mean heart rate of 80.2 bpm without backlog.
+The mean $T_{\mathrm{beat}}$ was 59.4 ms with a P95 of 70.3 ms, while
+inference-thread CPU utilization was 7.9\% and peak application-level native
+heap usage was 99.2 MB. The live session had no reference labels, so
+on-device classification accuracy was not evaluated.
+
+\vspace{\stretch{1}} \noindent
+\hrulefill\\
+{\bf Key words : }
+\parbox[t]{0.8\textwidth}
+{Electrocardiogram (ECG), Arrhythmia Classification, State-Space Models (SSMs), On-Device Inference, Mobile CPU Optimization, Wearable Healthcare}
+
+\end{abstract}
+\clearpage

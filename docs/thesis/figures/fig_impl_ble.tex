@@ -1,0 +1,93 @@
+% fig_impl_ble.tex
+% BLE frame structure and ECG sample encoding.
+
+\providecolor{bleblue}{RGB}{0,112,192}
+
+\begin{tikzpicture}[
+  >=Stealth,
+  thick,
+  x=1mm,
+  y=1mm,
+  font=\rmfamily,
+  cell/.style={
+    draw,
+    thick,
+    minimum height=10mm,
+    align=center,
+    inner sep=1pt,
+    anchor=west,
+    font=\rmfamily
+  },
+  sync/.style={
+    cell,
+    fill=gray!25
+  },
+  sample/.style={
+    draw,
+    thick,
+    minimum height=10mm,
+    align=center,
+    inner sep=2pt,
+    anchor=west,
+    font=\rmfamily
+  },
+  label/.style={
+    anchor=south,
+    font=\rmfamily\bfseries\small
+  },
+  off/.style={
+    anchor=south,
+    inner sep=1pt,
+    font=\rmfamily\scriptsize
+  },
+  box/.style={
+    draw=gray,
+    thick,
+    dashed,
+    inner sep=3mm
+  }
+]
+
+% 42-byte notification frame
+\node[sync, minimum width=12mm] (c0) at (0,0)
+  {Sync\\\texttt{0x80}};
+\node[cell, minimum width=10mm] (c1) at (c0.east)
+  {Seq\\1\,B};
+\node[cell, minimum width=14mm] (c2) at (c1.east)
+  {Header\\3\,B};
+\node[cell, minimum width=16mm] (c3) at (c2.east)
+  {Resp.\\3\,B};
+\node[cell, minimum width=46mm, very thick] (c4) at (c3.east)
+  {ECG: $10\times[\mathrm{tag},\mathrm{hi},\mathrm{lo}]$\\30\,B};
+\node[cell, minimum width=18mm] (c5) at (c4.east)
+  {Telemetry\\3\,B};
+\node[sync, minimum width=12mm] (c6) at (c5.east)
+  {Sync\\\texttt{0x8F}};
+
+% Byte offsets
+\foreach \c/\o in {
+  c0/0,
+  c1/1,
+  c2/2,
+  c3/5,
+  c4/8,
+  c5/38,
+  c6/41
+}{
+  \node[off] at (\c.north west) {\o};
+}
+\node[off] at (c6.north east) {42};
+
+% One ECG sample
+\node[sample, minimum width=28mm] (tag) at (34,-19)
+  {tag\\\texttt{0xF0}/\texttt{0xFF}};
+\node[sample, minimum width=30mm] (hi) at (64,-19)
+  {hi\\7 bits};
+\node[sample, minimum width=30mm] (lo) at (94,-19)
+  {lo\\7 bits};
+
+% 점선 회색 박스와 라벨
+\draw[box] (31,-26) rectangle (127,-8);
+\node[label] at (79,-14) {One ECG sample};
+
+\end{tikzpicture}

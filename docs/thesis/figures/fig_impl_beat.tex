@@ -1,0 +1,104 @@
+\providecolor{bleblue}{RGB}{0,112,192}
+\usetikzlibrary{arrows.meta}
+
+\begin{tikzpicture}[
+  x=1mm,
+  y=1mm,
+  font=\rmfamily,
+  >={Bar[width=0.8pt] Triangle[length=3pt,width=4pt]},
+  blk/.style={
+    draw, 
+    thick, 
+    align=center, 
+    text width=32mm,
+    minimum height=14mm, 
+    inner sep=1.5pt, 
+    anchor=north, 
+    font=\rmfamily
+  },
+  head/.style={
+    align=center, 
+    anchor=north, 
+    font=\rmfamily\bfseries
+  },
+  arr/.style={
+    ->, 
+    thick
+  },
+  ble/.style={
+    ->, 
+    thick, 
+    densely dashed, 
+    bleblue
+  }
+]
+
+  % ==================================================
+  % Headers
+  % ==================================================
+  \node[head] at (19, 0)  {BLE Callback};
+  \node[head] at (57, 0)  {Receive};
+  \node[head] at (95, 0)  {Inference};
+
+  % ==================================================
+  % BLE Callback
+  % ==================================================
+  \node[blk] (a1) at (19,-10) {Frame Check};
+  \node[blk] (a2) at (19,-28) {ECG Decode\\{\scriptsize 14-bit samples}};
+  \node[blk] (a3) at (19,-46) {Lead-off Detection};
+
+  % ==================================================
+  % Receive
+  % ==================================================
+  \node[blk] (b1) at (57,-10) {R-Flag Reception};
+  \node[blk] (b2) at (57,-28) {R-Peak Alignment\\{\scriptsize Past buffer search}};
+  \node[blk] (b3) at (57,-46) {Heart Rate Update};
+
+  % ==================================================
+  % Inference
+  % ==================================================
+  \node[blk] (c1) at (95,-10) {Ring Buffer};
+  \node[blk] (c2) at (95,-28) {Beat Windowing\\{\scriptsize $r_k \pm 250$ samples}};
+  \node[blk] (c3) at (95,-46) {ResDSUMamba\\{\scriptsize Classification}};
+  \node[blk] (c4) at (95,-64) {Post-processing\\{\scriptsize Threshold}};
+
+  % ==================================================
+  % UI
+  % ==================================================
+  \node[head] at (19,-84) {UI};
+  \node[blk] (d1) at (57,-84) {ECG Waveform\\{\scriptsize Real-time sweep}};
+  \node[blk] (d2) at (95,-84) {Display Results\\{\scriptsize HR \& Labels}};
+
+  % ==================================================
+  % BLE input
+  % ==================================================
+  \draw[ble] (19,-5.7) -- (a1.north);
+  \node[anchor=west, font=\rmfamily\scriptsize] at (18,-6.5) {BLE};
+
+  % ==================================================
+  % Internal flows 
+  % ==================================================
+  \foreach \s/\t in {a1/a2, a2/a3, b1/b2, b2/b3, c1/c2, c2/c3, c3/c4} 
+    \draw[arr] (\s.south) -- (\t.north);
+
+  % ==================================================
+  % Cross-column flows
+  % ==================================================
+  \draw[arr] (a2.east) -- (36.5,-35) -- (36.5,-17) -- (b1.west);
+  \draw[arr] (b2.east) -- (74.5,-35) -- (74.5,-17) -- (c1.west);
+
+  % ==================================================
+  % UI flows
+  % ==================================================
+  \draw[arr] (b3.south) -- (d1.north);
+  \draw[arr] (c4.south) -- (d2.north);
+
+  % ==================================================
+  % Separators
+  % ==================================================
+  \foreach \x in {38, 76}
+    \draw[gray!55, densely dashed, thin] (\x, 8) -- (\x, -75);
+
+  \draw[gray!55, densely dashed, thin] (0, -78) -- (113, -78);
+
+\end{tikzpicture}
