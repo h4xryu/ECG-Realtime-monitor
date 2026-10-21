@@ -7,7 +7,7 @@ import org.json.JSONObject
 import java.util.concurrent.Executors
 
 /**
- * Signup/login against the backend's /api/auth/* routes; persists the resulting
+ * Signup/login against the backend's /api/auth routes; persists the resulting
  * session via SessionManager. Network calls run on a background executor; callbacks
  * are delivered on the main thread.
  */
