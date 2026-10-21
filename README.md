@@ -43,9 +43,12 @@ February 2027).
 
 ## Screens
 
-| Real-time monitor (20 mm/mV · 25 mm/s) | Strip-view PDF report |
-|---|---|
-| ![monitor](docs/img/monitor_calibrated.png) | ![strip pdf](docs/img/strip_report.png) |
+| Real-time monitor (20 mm/mV · 25 mm/s) |
+|---|
+| Strip-view PDF report |
+|---|
+| ![monitor](docs/img/monitor_calibrated.png) |
+| ![strip pdf](docs/img/strip_report.png) |
 
 ---
 
