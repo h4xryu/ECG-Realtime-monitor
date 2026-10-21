@@ -11,10 +11,12 @@ import com.example.hicardimonitor.data.DiagnosisRecord
 import com.example.hicardimonitor.data.MatlabExporter
 import com.example.hicardimonitor.data.RecordRepository
 import com.example.hicardimonitor.data.RecordSampleBlock
+import com.example.hicardimonitor.data.network.LiveStreamRepository
 import com.example.hicardimonitor.session.ArrhythmiaInferenceEngine
 import com.example.hicardimonitor.session.CpcCalibrationManager
 import com.example.hicardimonitor.session.CpcRunner
 import com.example.hicardimonitor.session.HiCardiLabelCount
+import com.example.hicardimonitor.session.LiveStreamAggregator
 import com.example.hicardimonitor.session.PatientEncoding
 import com.example.hicardimonitor.session.PersonalizationQuality
 import com.example.hicardimonitor.session.RecordingManager
@@ -37,6 +39,8 @@ class HiCardiCoordinator(private val activity: AppCompatActivity) {
   val stripBuffer = StripRecordBuffer(fs = ModelConfig.FS_HZ)
   val cpcManager = CpcCalibrationManager()
   val recordingManager = RecordingManager()
+  /** 로그인한 상태에서만 서버로 보내는 실시간 스트림(선택 기능) — 미로그인 시 조용히 no-op. */
+  val liveStreamAggregator = LiveStreamAggregator()
 
   // 아래 필드들은 메인 스레드(UI 토글·연결 콜백)와 bleExecutor/inferenceExecutor 가
   // 동기화 없이 공유하므로 @Volatile 로 가시성을 보장한다.
@@ -188,11 +192,14 @@ class HiCardiCoordinator(private val activity: AppCompatActivity) {
     arrhythmiaEngine.enabledProvider = { enableInference }
     arrhythmiaEngine.bpmProvider = { rpeakTracker.bpm() ?: lastBpm }
     arrhythmiaEngine.onResult = { res, _ ->
+      liveStreamAggregator.onBeatResult(res)
       mainHandler.post {
         lastArrhythmia = res
         arrhythmiaListeners.forEach { it(res) }
       }
     }
+    liveStreamAggregator.onFlush = { payload -> LiveStreamRepository.send(activity, payload) }
+    liveStreamAggregator.start()
     bleSource.onLog = { msg -> mainHandler.post { logListeners.forEach { it(msg) } } }
     bleSource.onLinkStateChanged = { state ->
       mainHandler.post { linkStateListeners.forEach { it(state) } }
@@ -481,6 +488,11 @@ class HiCardiCoordinator(private val activity: AppCompatActivity) {
         stripDirty = true
       }
       MeasurementMode.IDLE -> {}
+    }
+
+    if (measurementMode == MeasurementMode.CONTINUOUS_MONITOR || measurementMode == MeasurementMode.RECORDING) {
+      liveStreamAggregator.onBatch(batch.filtered, leadOff)
+      bpmUpdate?.let { liveStreamAggregator.onBpm(it) }
     }
 
     postUiPulse(
